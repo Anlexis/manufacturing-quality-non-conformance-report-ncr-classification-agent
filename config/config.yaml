@@ -1,0 +1,20 @@
+# Runtime parameters — loaded by AgentRegistry, passed as Graph(config=...).
+# Separate from config/agent.yaml (the static manifest).
+#
+# Every key below has a reader. max_retry is consumed by the framework backbone
+# for retry routing; timeout_s is the per-request deadline the HTTP entry point
+# enforces; the ncr block carries the bounds the input contract and the severity
+# assessment apply. A key with no reader is a claim the agent does not keep, so
+# nothing is declared here that nothing consumes.
+
+max_retry: 3
+timeout_s: 30
+
+ncr:
+  # Accepted length window for the nonconformance report text.
+  min_text_chars: 10
+  max_text_chars: 8000
+  # Defect rate (affected units / lot size) at or above which severity is
+  # escalated to critical. A caller may tighten or relax it per request within
+  # 0.0-1.0; this is the value used when the caller does not supply one.
+  critical_defect_rate: 0.05
